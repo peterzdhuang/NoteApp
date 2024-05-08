@@ -1,0 +1,51 @@
+.pdf-title{
+    width: 96.3vw;
+    height: 50px;
+    background-color: #e4e0e0;
+    border: 2px solid #333;
+    padding: 20px;
+    text-align: center;
+}
+
+.pdf-div{
+    position: relative;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor:pointer;
+    
+    top: 5px;
+    left: 500px;
+
+    width: 700px;
+    height: 604px;
+}
+
+.upvote {
+    position: relative;
+    top: 10px;
+    background-color: transparent; /* Set the background color to transparent */
+    
+    cursor: pointer; /* Add pointer cursor for interactivity */
+}
+
+.downvote {
+    position: relative;
+    top: 10px;
+    background-color: transparent; /* Set the background color to transparent */
+    
+    cursor: pointer; /* Add pointer cursor for interactivity */
+}
+
+.share {
+    position: relative;
+    top: 10px;
+    background-color: transparent; /* Set the background color to transparent */
+    
+    cursor: pointer; /* Add pointer cursor for interactivity */
+}
+
+
+.feedback-text{
+    position: relative;
+    top: 40px;    
+}

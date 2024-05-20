@@ -10,7 +10,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
- import '@/app/page.css'
+import { BanIcon, FileQuestionIcon, FlagIcon, FlagOffIcon, NewspaperIcon, TagIcon } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function Home() {
   return (
@@ -19,7 +20,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img src="/path-to-your-logo.png" alt="tbd" className="h-8 w-auto mr-4" />
+              <img src="/path-to-your-logo.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
               <a href="#" className="text-xl font-bold text-black-400">NoteApp</a>
             </div>
             
@@ -39,38 +40,42 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="bg-white py-4 shadow-sm">
+      <div className="bg-white my-1 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col space-y-2">
-            <div className="flex space-x-2">
-              <Badge variant="outline" className="bg-blue-100 text-blue-800">New</Badge>
-              <Badge variant="outline" className="bg-green-100 text-green-800">Popular</Badge>
-              <Badge variant="outline" className="bg-red-100 text-red-800">Featured</Badge>
-            </div>
-            
-            <Breadcrumb>
-              <BreadcrumbList className="flex items-center space-x-4">
-                <BreadcrumbItem>
-                  <BreadcrumbLink>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                
-                <BreadcrumbSeparator />
-                
-                <BreadcrumbItem>
-                  <BreadcrumbLink>
-                    <Link href="/components">Components</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                
-                <BreadcrumbSeparator />
-                
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+          <h1 className="scroll-m-20 text-2xl tracking-tight lg:text-5xl my-6">
+            Something.pdf
+          </h1>
+          
+          <Button variant="outline" className=""><FlagOffIcon/></Button>
+
+          <Breadcrumb>
+            <BreadcrumbList className="flex items-center space-x-4">
+              <BreadcrumbItem>
+                <BreadcrumbLink>
+                  <Link href="/">University</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              
+              <BreadcrumbSeparator />
+              
+              <BreadcrumbItem>
+                <BreadcrumbLink>
+                  <Link href="/components">Course</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              
+              <BreadcrumbSeparator />
+              
+              <BreadcrumbItem>
+                <BreadcrumbPage>Date</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          
+          <div className="flex space-x-2 mt-4">
+            <Badge variant="outline" className="bg-blue-100 text-blue-800"><NewspaperIcon/>Upvoted</Badge>
+            <Badge variant="outline" className="bg-green-100 text-green-800"><FileQuestionIcon/>Popular</Badge>
+            <Badge variant="outline" className="bg-red-100 text-red-800"><TagIcon/>Featured</Badge>
           </div>
         </div>
       </div>

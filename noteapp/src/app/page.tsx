@@ -1,20 +1,13 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { FileQuestionIcon, FlagIcon, List, NewspaperIcon, TagIcon, HeartIcon } from "lucide-react";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Link from "next/link";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { FileQuestionIcon, FlagIcon, NewspaperIcon, TagIcon, HeartIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import PDFViewer from "@/components/custompdfviewer";
 
 const PlaceholderCard = () => (
-  <Card className="w-full max-w-[300px] h-[400px] flex flex-col bg-gray-200 rounded-lg overflow-hidden shadow-md">
+  <Card className="w-full max-w-[300px] h-[200px] flex flex-col bg-gray-200 rounded-lg overflow-hidden shadow-md">
     <CardContent className="flex-1 p-4">
       <div className="animate-pulse h-full">
         <div className="h-8 bg-gray-300 mb-2"></div>
@@ -109,25 +102,23 @@ export default function Home() {
             <CardDescription>showing notes with similar Keywords</CardDescription>
           </CardHeader>
           
-          <CardContent>
+          <CardContent className="space-y-4">
             <PlaceholderCard />
             <PlaceholderCard />
             <PlaceholderCard />
-            <PlaceholderCard/>
+            <PlaceholderCard />
           </CardContent>
-
 
           <CardFooter className="flex justify-center">
             <Button variant="outline" className="">View More</Button>
           </CardFooter>
-
         </Card>
 
-        {/* PDF Viewer */}
-        <div className="ml-6 w-3/4 h-[600px] shadow-lg">
-          <iframe src="http://www.africau.edu/images/default/sample.pdf" className="w-full h-[800px] rounded-lg border-gray-1000" title="PDF Viewer"></iframe>
+        <div className="ml-6 w-3/4 h-[800px] shadow-lg">
+          <PDFViewer file='https://www.pdf995.com/samples/pdf.pdf'/>
         </div>
+        
       </div>
-    </>      
+    </>
   );
 }

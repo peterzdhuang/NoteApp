@@ -10,8 +10,21 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { FileQuestionIcon, FlagIcon, List, NewspaperIcon, TagIcon } from "lucide-react";
+import { FileQuestionIcon, FlagIcon, List, NewspaperIcon, TagIcon, HeartIcon } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+
+const PlaceholderCard = () => (
+  <Card className="w-full max-w-[300px] h-[400px] flex flex-col bg-gray-200 rounded-lg overflow-hidden shadow-md">
+    <CardContent className="flex-1 p-4">
+      <div className="animate-pulse h-full">
+        <div className="h-8 bg-gray-300 mb-2"></div>
+        <div className="h-6 bg-gray-300 mb-2"></div>
+        <div className="h-4 bg-gray-300 mb-2"></div>
+        <div className="h-4 bg-gray-300"></div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export default function Home() {
   return (
@@ -79,34 +92,40 @@ export default function Home() {
             </div>
           </div>
 
-          <div>
+          <div className="flex items-center space-x-4">
             <Button variant="outline" className="ml-4"><FlagIcon/></Button>
+            <Button variant="outline" className="flex items-center text-blue-900 bg-blue-100 px-4 py-2">
+              <HeartIcon className="mr-2" />
+              <span className="text-sm">Favorite</span>
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex">
-        <Card className="w-[300px] h-[900px] flex flex-col">
+        <Card className="w-[300px] h-auto flex flex-col shadow-lg">
           <CardHeader>
             <CardTitle>Similar Content</CardTitle>
             <CardDescription>showing notes with similar Keywords</CardDescription>
           </CardHeader>
           
-          
           <CardContent>
-            
+            <PlaceholderCard />
+            <PlaceholderCard />
+            <PlaceholderCard />
+            <PlaceholderCard/>
           </CardContent>
 
 
           <CardFooter className="flex justify-center">
-            <Button variant="link" className="">View More</Button>
+            <Button variant="outline" className="">View More</Button>
           </CardFooter>
 
         </Card>
 
         {/* PDF Viewer */}
-        <div className="ml-6 w-3/4">
-          <iframe src="path-to-your-pdf.pdf" className="w-full h-[600px]" title="PDF Viewer"></iframe>
+        <div className="ml-6 w-3/4 h-[600px] shadow-lg">
+          <iframe src="http://www.africau.edu/images/default/sample.pdf" className="w-full h-[800px] rounded-lg border-gray-1000" title="PDF Viewer"></iframe>
         </div>
       </div>
     </>      

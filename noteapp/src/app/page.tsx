@@ -42,7 +42,7 @@ export default function Home() {
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img src="/path-to-your-logo.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
+              <img src="/t.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
               <a href="/" className="text-xl font-bold text-black-400 dark:text-white">NoteApp</a>
             </div>
             

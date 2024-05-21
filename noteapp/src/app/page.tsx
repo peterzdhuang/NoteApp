@@ -58,7 +58,7 @@ export default function Home() {
               <BreadcrumbList className="flex items-center space-x-4 text-lg">
                 <BreadcrumbItem>
                   <BreadcrumbLink>
-                    <Link href="/">University</Link>
+                    <Link href="/app/sign-in">University</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 

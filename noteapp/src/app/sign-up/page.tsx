@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function signup() {
+export default function signup() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>

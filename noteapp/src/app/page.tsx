@@ -40,8 +40,8 @@ export default function Home() {
             </div>
             
             <div className="flex items-center space-x-4">
-              <Button variant="default">Sign in</Button>
-              <Button variant="secondary">Sign up</Button>
+              <Button variant="default"><Link href="/sign-in">Sign-in</Link></Button>
+              <Button variant="secondary"><Link href="/sign-up">Sign-up</Link></Button>
             </div>
           </div>
         </div>

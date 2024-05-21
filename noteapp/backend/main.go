@@ -91,7 +91,7 @@ func corsMiddleware() gin.HandlerFunc {
 	}
 }
 
-func main() {
+func test() {
 	ctx := context.Background()
 	b, err := os.ReadFile("credentials.json")
 	if err != nil {
@@ -112,13 +112,19 @@ func main() {
 
 	router := gin.Default()
 	router.Use(corsMiddleware())
-
 	router.POST("/upload", handleUpload)
 	router.GET("/getlink/:fileId", handleGetFileLink)
-	router.Run(":3000")
+
+	router.Run()
 }
 
 func handleUpload(c *gin.Context) {
+	var fileData struct {
+		FileName string `json:"fileName" binding:"required"`
+		Rating   int    `json:"rating" binding:"required"`
+		Uploader string `json:"uploader" binding:"required"`
+		ClassID  string `json:"classId" binding:"required"`
+	}
 
 	if srv == nil {
 		log.Printf("Drive service not initialized")
@@ -152,6 +158,15 @@ func handleUpload(c *gin.Context) {
 		return
 	}
 
+	if err := c.BindJSON(&fileData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Creating the metadata in the database
+	db := getDatabase()
+	createFile(db, uploadedFile.Id, fileData.FileName, fileData.Rating, fileData.Uploader, fileData.ClassID)
+
 	c.JSON(http.StatusOK, gin.H{"fileId": uploadedFile.Id})
 }
 
@@ -181,14 +196,9 @@ func handleGetFileLink(c *gin.Context) {
 		log.Fatalf("Unable to update file permissions: %v", err)
 	}
 
-	fmt.Println(file.WebViewLink)
-
 	fileLink := file.WebViewLink
 	index := strings.Index(fileLink, "view")
-	fmt.Println(index)
-	fmt.Println(123123)
 	fileLink = fileLink[:index] + "preview"
-	fmt.Println(fileLink)
 
 	c.JSON(http.StatusOK, gin.H{"fileLink": fileLink})
 }

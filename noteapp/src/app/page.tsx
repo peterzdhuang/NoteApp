@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { FileQuestionIcon, FlagIcon, NewspaperIcon, TagIcon, HeartIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import PDFViewer from "@/components/pdf";
+
 
 const PlaceholderCard = () => (
   <Card className="w-full max-w-[300px] h-[200px] flex flex-col bg-gray-200 rounded-lg overflow-hidden shadow-md">
@@ -114,7 +116,7 @@ export default function Home() {
         </Card>
 
         <div className="ml-6 w-3/4 h-[800px] shadow-lg">
-          <PDFViewer file="http://localhost:3001/pdf" />
+          <PDFViewer pdfUrl="http://localhost:3001/pdf" />
         </div>
         
       </div>

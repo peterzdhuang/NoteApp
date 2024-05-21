@@ -43,7 +43,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <img src="/t.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
-              <a href="/" className="text-xl font-bold text-black-400 dark:text-white">NoteApp</a>
+              <Link href="/" className="text-xl font-bold text-black-400 dark:text-white">NoteApp</Link>
             </div>
             
             <div className="flex-1 mx-4">
@@ -75,16 +75,16 @@ export default function Home() {
             <Breadcrumb>
               <BreadcrumbList className="flex items-center space-x-4 text-lg">
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
-                    <Link href="/app/sign-in">University</Link>
+                  <BreadcrumbLink href="/app/sign-in">
+                    University
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 
                 <BreadcrumbSeparator />
                 
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
-                    <Link href="/components">Course</Link>
+                  <BreadcrumbLink href="/components">
+                    Course
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 

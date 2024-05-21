@@ -2,6 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { Button } from './ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight, faSearchPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // Import necessary styles for annotations
+
+// Ensure the workerSrc is correctly set for pdfjs
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface PDFViewerProps {
   pdfUrl: string;
@@ -11,7 +17,6 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl }) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     // Load worker from the pdf.js package
@@ -38,52 +43,56 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl }) => {
     setPageNumber(prevPage => Math.max(prevPage - 1, 1));
   };
 
-  const handleGoToPage = (pageNumber: number) => {
-    setPageNumber(pageNumber);
-  };
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
-
   return (
-    <div className={`h-screen flex flex-col justify-between ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'}`}>
-      <div className="navbar flex justify-between items-center px-4 py-2">
-        <div>
-          <Button variant="outline" onClick={handlePrevPage} disabled={pageNumber <= 1} className="mr-2 px-2 py-1 rounded bg-gray-200 hover:bg-gray-300">
-            Prev
-          </Button>
-          <span>
-            Page {pageNumber} of {numPages}
-          </span>
-          <button onClick={handleNextPage} disabled={pageNumber >= numPages!} className="ml-2 px-2 py-1 rounded bg-gray-200 hover:bg-gray-300">
-            Next
-          </button>
-        </div>
+    <div className="flex flex-col justify-between bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto" style={{ height: '800px' }}>
+      <div className="navbar flex justify-between items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-t-lg shadow" style={{ height: '10vh' }}>
+        {/* Zoom buttons */}
         <div className="flex items-center space-x-2">
-          <button onClick={handleZoomIn} className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300">Zoom In</button>
-          <button onClick={handleZoomOut} className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300">Zoom Out</button>
-          <input
-            type="number"
-            value={pageNumber}
-            onChange={(e) => handleGoToPage(parseInt(e.target.value))}
-            min={1}
-            max={numPages}
-            className="w-16 px-2 py-1 rounded bg-gray-200 focus:outline-none focus:bg-gray-300"
-          />
+          <Button onClick={handleZoomIn} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
+            <FontAwesomeIcon icon={faSearchPlus} />
+          </Button>
+          <Button onClick={handleZoomOut} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
+            <FontAwesomeIcon icon={faSearchMinus} />
+          </Button>
+        </div>
+        {/* Page input */}
+        <div className="flex items-center space-x-2">
+          {numPages && (
+            <input
+              type="text"
+              value={`${pageNumber} / ${numPages}`}
+              readOnly
+              className="w-24 px-2 py-1 bg-gray-300 dark:bg-gray-600 rounded focus:outline-none focus:bg-gray-400 dark:focus:bg-gray-500"
+            />
+          )}
+        </div>
+        {/* Prev and Next buttons */}
+        <div className="flex items-center space-x-2">
+          <Button onClick={handlePrevPage} disabled={pageNumber <= 1} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Button>
+          <Button onClick={handleNextPage} disabled={pageNumber >= numPages!} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
+            <FontAwesomeIcon icon={faArrowRight} />
+          </Button>
         </div>
       </div>
-      <div className="pdf-container mx-auto my-4">
-        <Document
-          file={pdfUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
-          <Page pageNumber={pageNumber} scale={scale} />
-        </Document>
+      {/* PDF container */}
+      <div className="flex-grow mx-auto my-4 flex justify-center overflow-auto" style={{ height: 'calc(90vh - 64px)', maxWidth: '100%' }}>
+        <div className="overflow-auto max-w-full">
+          <Document
+            file={pdfUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            className="flex justify-center"
+          >
+            <Page 
+              pageNumber={pageNumber} 
+              scale={scale} 
+              renderTextLayer={false}  
+              renderAnnotationLayer={false} 
+            />
+          </Document>
+        </div>
       </div>
-      <button onClick={toggleTheme} className="mx-auto mb-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">
-        {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-      </button>
     </div>
   );
 };

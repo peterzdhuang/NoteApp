@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <nav className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <img src="/path-to-your-logo.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
@@ -88,7 +88,7 @@ export default function Home() {
 
           <div className="flex items-center space-x-4">
             <Button variant="outline" className="ml-4"><FlagIcon/></Button>
-            <Button variant="outline" className="flex items-center text-blue-900 bg-blue-100 px-4 py-2">
+            <Button variant="outline" className="flex items-center text-blue-900 bg-white-100 px-4 py-2">
               <HeartIcon className="mr-2" />
               <span className="text-sm">Favorite</span>
             </Button>
@@ -115,7 +115,7 @@ export default function Home() {
           </CardFooter>
         </Card>
 
-        <div className="ml-6 w-3/4 h-[800px] shadow-lg">
+        <div className="ml-20 w-3/4 h-[800px] shadow-lg">
           <PDFViewer pdfUrl="http://localhost:3001/pdf" />
         </div>
         

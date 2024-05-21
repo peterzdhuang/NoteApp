@@ -42,8 +42,8 @@ export default function Home() {
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img src="/t.png" alt="Brand Logo" className="h-8 w-auto mr-4" />
-              <Link href="/" className="text-xl font-bold text-black-400 dark:text-white">NoteApp</Link>
+              <img src="/logo.png" alt="Brand Logo" className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 mr-4" />
+              <Link href="/" className="text-3xl font-bold text-black-400 dark:text-white">NoteApp</Link>
             </div>
             
             <div className="flex-1 mx-4">
@@ -65,15 +65,15 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="bg-secondary text-secondary-foreground hover:bg-secondary/80 my-1 py-4 shadow-sm dark:bg-gray-900 dark:text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <div className="border-lg bg-secondary text-secondary-foreground hover:bg-white my-1 py-4 shadow-sm dark:bg-gray-900 dark:text-white dark:hover:bg-gray-700">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <div>
             <h1 className="scroll-m-20 text-4xl tracking-tight lg:text-5xl my-6">
               Something.pdf
             </h1>
 
             <Breadcrumb>
-              <BreadcrumbList className="flex items-center space-x-4 text-lg">
+              <BreadcrumbList className="flex items-center space-x-4 text-2xl">
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/app/sign-in">
                     University
@@ -106,7 +106,7 @@ export default function Home() {
 
           <div className="flex items-center space-x-4">
             <Button variant="outline" className="ml-4"><FlagIcon/></Button>
-            <Button variant="default" className="flex items-center px-4 py-2">
+            <Button variant="default" className="flex items-center px-4 py-2 hover:bg-primary/80">
               <HeartIcon className="mr-2" />
               <span className="text-sm">Favorite</span>
             </Button>
@@ -129,7 +129,7 @@ export default function Home() {
           </CardContent>
 
           <CardFooter className="flex justify-center">
-            <Button variant="outline" className="">View More</Button>
+            <Button variant="outline" className="text-base md:text-lg lg:text-xl">View More</Button>
           </CardFooter>
         </Card>
 

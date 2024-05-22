@@ -8,15 +8,24 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+	"github.com/peterhuang569/NoteApp/initializer"
+	"github.com/peterhuang569/NoteApp/middleware"
+	"github.com/peterhuang569/NoteApp/models"
+	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/drive/v3"
 	"google.golang.org/api/option"
 )
 
-var srv *drive.Service
+var (
+	srv *drive.Service
+)
 
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
@@ -91,7 +100,7 @@ func corsMiddleware() gin.HandlerFunc {
 	}
 }
 
-func test() {
+func getToken() {
 	ctx := context.Background()
 	b, err := os.ReadFile("credentials.json")
 	if err != nil {
@@ -109,13 +118,23 @@ func test() {
 	if err != nil {
 		log.Fatalf("Unable to retrieve Drive client: %v", err)
 	}
+}
 
+func main() {
+	initializer.LoadEnv()
+	getToken()
 	router := gin.Default()
 	router.Use(corsMiddleware())
 	router.POST("/upload", handleUpload)
 	router.GET("/getlink/:fileId", handleGetFileLink)
+	router.POST("/signup", signUp)
+	router.POST("/login", login)
+	router.GET("/", middleware.RequireAuth(), handle)
+	router.Run(":3001")
+}
 
-	router.Run()
+func handle(c *gin.Context) {
+	fmt.Println("hi")
 }
 
 func handleUpload(c *gin.Context) {
@@ -163,10 +182,6 @@ func handleUpload(c *gin.Context) {
 		return
 	}
 
-	// Creating the metadata in the database
-	db := getDatabase()
-	createFile(db, uploadedFile.Id, fileData.FileName, fileData.Rating, fileData.Uploader, fileData.ClassID)
-
 	c.JSON(http.StatusOK, gin.H{"fileId": uploadedFile.Id})
 }
 
@@ -201,4 +216,93 @@ func handleGetFileLink(c *gin.Context) {
 	fileLink = fileLink[:index] + "preview"
 
 	c.JSON(http.StatusOK, gin.H{"fileLink": fileLink})
+}
+
+func signUp(c *gin.Context) {
+	// Get the username and email + pw
+	client, DB := initializer.LoadDB()
+
+	userCollection := DB.Collection("User")
+
+	var input models.User
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// Hash the password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+	input.Password = string(hashedPassword)
+
+	// Check if the user already exists
+	var existingUser models.User
+	err = userCollection.FindOne(context.Background(), bson.M{"email": input.Email}).Decode(&existingUser)
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
+		return
+	}
+
+	// Create user
+	_, err = userCollection.InsertOne(context.Background(), input)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		return
+	}
+	defer func() {
+		if err = client.Disconnect(context.TODO()); err != nil {
+			log.Fatalf("Error disconnecting from MongoDB: %v", err)
+		}
+	}()
+	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+}
+
+func login(c *gin.Context) {
+	client, DB := initializer.LoadDB()
+	userCollection := DB.Collection("User")
+	var input models.User
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Find the user
+	var user models.User
+	err := userCollection.FindOne(context.Background(), bson.M{"email": input.Email}).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		return
+	}
+
+	// Check the password
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		return
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"Email": user.Email,
+		"exp":   time.Now().Add(24 * time.Hour).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(os.Getenv("Key")))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate JWT token"})
+		return
+	}
+
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 3600*24, "", "", false, true)
+
+	defer func() {
+		if err = client.Disconnect(context.TODO()); err != nil {
+			log.Fatalf("Error disconnecting from MongoDB: %v", err)
+		}
+	}()
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }

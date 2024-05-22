@@ -1,50 +1,12 @@
-package main
+package database
 
 import (
 	"context"
-	"fmt"
-	"log"
-	"os"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-func getDatabase() *mongo.Database {
-	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	// Get MongoDB URI and database name from environment variables
-	mongoURI := os.Getenv("MONGO_URI")
-	dbName := os.Getenv("MONGO_DB_NAME")
-
-	// Create a new MongoDB client and connect to the server
-	clientOptions := options.Client().ApplyURI(mongoURI)
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-	if err != nil {
-		log.Fatalf("Error creating MongoDB client: %v", err)
-	}
-	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
-			log.Fatalf("Error disconnecting from MongoDB: %v", err)
-		}
-	}()
-
-	// Ping the primary to verify the client connection
-	if err := client.Ping(context.TODO(), nil); err != nil {
-		log.Fatalf("Error pinging MongoDB: %v", err)
-	}
-	fmt.Println("Successfully connected to MongoDB")
-
-	// Get a handle for the database
-	return client.Database(dbName)
-}
 
 func createFile(db *mongo.Database, fileID string, fileName string, rating int, uploader string, classID string) (string, error) {
 	filesCollection := db.Collection("Files")

@@ -134,7 +134,7 @@ export default function Home() {
         </Card>
 
         <div className="ml-20 w-3/4 h-[800px] shadow-lg overflow-auto">
-          <PDFViewer pdfUrl="http://localhost:3001/pdf" />
+          <PDFViewer pdfUrl="https://www.clickdimensions.com/links/TestPDFfile.pdf" />
         </div>
         
       </div>

@@ -18,6 +18,14 @@ const config = {
       },
     },
     extend: {
+      height: {
+        '94vh': '94vh'
+      },
+
+      width: {
+        '95vh': '95vh'
+      },
+
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

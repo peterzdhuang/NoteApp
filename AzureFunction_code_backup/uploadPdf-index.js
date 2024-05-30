@@ -18,14 +18,17 @@ module.exports = async function (context, req) {
 
     try {
         const blockBlobClient = containerClient.getBlockBlobClient(fileName);
-        await blockBlobClient.uploadData(file);
+
+        // Upload the file with the appropriate headers
+        await blockBlobClient.uploadData(file, {
+            blobHTTPHeaders: {
+                blobContentType: "application/pdf",
+                blobContentDisposition: `inline; filename="${fileName}"`
+            }
+        });
 
         const accountName = process.env["STORAGE_ACCOUNT_NAME"];
         const accountKey = process.env["STORAGE_ACCOUNT_KEY"];
-
-        // Log the values to verify they are being read correctly
-        context.log(`Account Name: ${accountName}`);
-        context.log(`Account Key: ${accountKey}`);
 
         if (!accountName || !accountKey) {
             throw new Error("Storage account name or key is missing.");

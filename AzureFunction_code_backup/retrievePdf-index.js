@@ -21,8 +21,6 @@ module.exports = async function (context, req) {
         let entities = [];
         const entitiesIter = tableClient.listEntities();
         for await (const entity of entitiesIter) {
-            // Remove any potential "Content-Disposition" header to avoid auto downloading
-            delete entity.url;
             entities.push(entity);
         }
 

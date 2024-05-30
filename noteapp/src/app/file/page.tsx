@@ -96,7 +96,7 @@ export default function Home() {
         </Card>
 
         <div className="ml-20 w-3/4 h-[800px] shadow-lg overflow-auto">
-          <PDFViewer pdfUrl="https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf" />
+          <PDFViewer pdfUrl="http://localhost:3001/pdf" />
         </div>
         
       </div>

@@ -9,7 +9,7 @@ app.use(cors());
 
 app.get('/pdf', async (req, res) => {
     try {
-        const response = await fetch('https://www.pdf995.com/samples/pdf.pdf');
+        const response = await fetch('https://dricandpeter.blob.core.windows.net/pdfblob/test.pdf');
         const pdfBuffer = await response.buffer();
         res.set('Content-Type', 'application/pdf');
         res.send(pdfBuffer);

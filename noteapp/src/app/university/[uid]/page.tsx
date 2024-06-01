@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
@@ -67,13 +68,17 @@ const AboutPage = ({ params }) => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredCards.map((title, index) => (
-            <Card key={index} className="flex flex-col items-start bg-primary/90 text-white hover:text-black hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
-              <CardContent className="flex-1 flex flex-col p-4">
-                <div className="text-lg font-medium mb-2">{title}</div>
-                <div className="text-gray-600">{placeholderDescription}</div>
-                <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
-              </CardContent>
-            </Card>
+            <Link href="/course" key={index}> {/* Use Link with href */}
+              <a className="w-full"> {/* Add anchor tag for styling */}
+                <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
+                  <CardContent className="flex-1 flex flex-col p-4">
+                    <div className="text-lg font-medium mb-2">{title}</div>
+                    <div className="text-gray-600">{placeholderDescription}</div>
+                    <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
+                  </CardContent>
+                </Card>
+              </a>
+            </Link>
           ))}
         </div>
       </div>

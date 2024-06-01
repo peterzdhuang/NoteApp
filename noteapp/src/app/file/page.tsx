@@ -1,8 +1,6 @@
 'use client'
-import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { FileQuestionIcon, FlagIcon, NewspaperIcon, TagIcon, HeartIcon, MoonIcon, SunIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

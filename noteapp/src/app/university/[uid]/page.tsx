@@ -1,10 +1,14 @@
 'use client'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 
-const AboutPage = ({ params }) => { 
+const coursePage = () => { 
+  const router = useRouter();
+  const { uid } = router.query;
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSemester, setSelectedSemester] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -86,4 +90,4 @@ const AboutPage = ({ params }) => {
   );
 };
 
-export default AboutPage;
+export default coursePage;

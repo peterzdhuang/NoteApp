@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const SearchBar = () => {
   const router = useRouter();
   const universities = {
-    "University of Alberta": 1,
-    "University of Calgary": 2,
-  };
-
+    1 : "University of Alberta"
+  }
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [notFound, setNotFound] = useState(false);
@@ -30,34 +29,47 @@ const SearchBar = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const uid = universities[query];
-    if (uid) {
-      setNotFound(false);
-      router.push(`/university/${uid}`);
-    } else {
-      setNotFound(true);
-    }
-  };
-
   const handleSuggestionClick = (suggestion) => {
     setQuery(suggestion);
     setSuggestions([]);
   };
 
+  const getUid = async (e) => {
+    try {
+      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getUniversityByName?code=4d1tlY6Rp9n6Nq7D2o4Cks0qPOqJU_AZwIPLj9gWnWEtAzFuT3Pnwg%3D%3D&universityName=${encodeURIComponent(query)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      setNotFound(false);
+      const jsonData = await response.json();
+      router.push(`/university/query?=${encodeURIComponent(jsonData["uid"])}`);
+      
+
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
   return (
     <>
       <div className="relative w-full max-w-md mx-auto">
-        <form onSubmit={handleSubmit} className="flex items-center">
-          <Input
-            type="text"
-            value={query}
-            onChange={handleChange}
-            placeholder="Enter a university"
-            className="flex-1 px-4 py-2 border rounded-l-lg" />
-          <Button variant="default">Search</Button>
-        </form>
+        
+        <Input
+          type="text"
+          value={query}
+          onChange={handleChange}
+          placeholder="Enter a university"
+          className="flex-1 px-4 py-2 border rounded-l-lg" />
+
+        {/* <Link href={`/university/${query}?query=${query}`}>
+          <Button variant="default" onClick={getUid}>Search</Button>
+        </Link> */}
+
         {suggestions.length > 0 && (
           <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
             {suggestions.map((suggestion) => (

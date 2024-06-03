@@ -6,29 +6,57 @@ import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 
 const coursePage = () => { 
-  const router = useRouter();
-  const { uid } = router.query;
+  const [loading, setLoading] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const [uid, setUid] = useState('');
+
+  useEffect(() => {
+    // Parse URL on the client side
+    const pathArray = window.location.pathname.split('/');
+    const uidFromPath = pathArray[pathArray.length - 1];
+    setUid(uidFromPath);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getClassesByUid?code=E9eyEuZNzKgqPruXoIuWOeUg7p9B4YyrAF2XNExxPGOxAzFujBjnPQ%3D%3D&uid=${encodeURIComponent(uid)}`);
+        const data = await res.json()
+        setClasses(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching classes:', error);
+        setLoading(false);
+      }
+    };
+
+    if (uid) {
+      fetchData();
+    }
+  }, [uid]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSemester, setSelectedSemester] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  const cardTitles = [
-    'Cmput 450', 'Cmput 451', 'Cmput 452', 'Cmput 453', 
-    'Cmput 454', 'Cmput 455', 'Cmput 456', 'Cmput 457',
-    'Cmput 458', 'Cmput 459', 'Cmput 460', 'Cmput 461', 
-    'Cmput 462', 'Cmput 463', 'Cmput 464', 'Cmput 465'
-  ];
+  
+
   
   const placeholderDescription = 'This is a placeholder description for the course.';
   const placeholderSemester = 'Select a Semester';
   const placeholderDepartment = 'Select a Department';
 
-  const filteredCards = cardTitles.filter(title => 
-    title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedSemester ? title.includes(selectedSemester) : true) &&
-    (selectedDepartment ? title.includes(selectedDepartment) : true)
-  );
 
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  } 
+  // const cardTitles = ["test"];
+  // const filteredCards = cardTitles.filter(title => 
+  //   title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //   (selectedSemester ? title.includes(selectedSemester) : true) &&
+  //   (selectedDepartment ? title.includes(selectedDepartment) : true)
+  // );
   return (
     <>
       <Nav page_name='university' />
@@ -70,13 +98,14 @@ const coursePage = () => {
             </select>
           </div>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredCards.map((title, index) => (
-            <Link href="/course" key={index}> {/* Use Link with href */}
+          {classes.map((course, index) => (
+            <Link href={`/university/${uid}/course/${course.rowKey}`} key={index}> {/* Use Link with href */}
               <a className="w-full"> {/* Add anchor tag for styling */}
                 <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
                   <CardContent className="flex-1 flex flex-col p-4">
-                    <div className="text-lg font-medium mb-2">{title}</div>
+                    <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
                     <div className="text-gray-600">{placeholderDescription}</div>
                     <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
                   </CardContent>

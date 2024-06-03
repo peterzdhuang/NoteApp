@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -35,6 +36,8 @@ const SearchBar = () => {
   };
 
   const getUid = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getUniversityByName?code=4d1tlY6Rp9n6Nq7D2o4Cks0qPOqJU_AZwIPLj9gWnWEtAzFuT3Pnwg%3D%3D&universityName=${encodeURIComponent(query)}`, {
         method: 'GET',
@@ -48,27 +51,29 @@ const SearchBar = () => {
       }
       setNotFound(false);
       const jsonData = await response.json();
-      router.push(`/university/query?=${encodeURIComponent(jsonData["uid"])}`);
-      
+      const uid = jsonData["uid"]
+      router.push(`/university/${[uid]}`);
 
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
   };
+
   return (
     <>
       <div className="relative w-full max-w-md mx-auto">
         
-        <Input
-          type="text"
-          value={query}
-          onChange={handleChange}
-          placeholder="Enter a university"
-          className="flex-1 px-4 py-2 border rounded-l-lg" />
-
-        {/* <Link href={`/university/${query}?query=${query}`}>
+        <form onSubmit={getUid}>
+          <Input
+            type="text"
+            value={query}
+            onChange={handleChange}
+            placeholder="Enter a university"
+            className="flex-1 px-4 py-2 border rounded-l-lg" />
           <Button variant="default" onClick={getUid}>Search</Button>
-        </Link> */}
+        </form>
+
+
 
         {suggestions.length > 0 && (
           <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">

@@ -26,7 +26,7 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
 
   return (
     <>
-      <nav className="shadow-lg bg-gradient-to-r from-secondary to-white-400 border-b-1 border-gray-400">
+      <nav className="shadow-lg bg-secondary border-b-1 border-gray-400">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -47,7 +47,7 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
             <div className="flex items-center space-x-4">
               <Button variant="default"><Link href="/sign-in">Sign-in</Link></Button>
               <Button variant="default" className="bg-primary/80"><Link href="/sign-up">Sign-up</Link></Button>
-              <Button variant="outline" onClick={toggleDarkMode}>
+              <Button variant="default" onClick={toggleDarkMode}>
                 {darkMode ? <SunIcon /> : <MoonIcon />}
               </Button>
             </div>

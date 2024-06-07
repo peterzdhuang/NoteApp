@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation';
 
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 const SearchBar = () => {
   const router = useRouter();
   const universities = {
-    1 : "University of Alberta"
-  }
+    1: "University of Alberta",
+    2: "Harvard University",
+    3: "Stanford University",
+    4: "University of Toronto"
+  };
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [notFound, setNotFound] = useState(false);
@@ -21,12 +23,14 @@ const SearchBar = () => {
     setQuery(input);
 
     if (input.length > 0) {
-      const filteredSuggestions = Object.keys(universities).filter((university) =>
+      const filteredSuggestions = Object.values(universities).filter((university) =>
         university.toLowerCase().includes(input.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
+      setNotFound(filteredSuggestions.length === 0);
     } else {
       setSuggestions([]);
+      setNotFound(false);
     }
   };
 
@@ -51,32 +55,30 @@ const SearchBar = () => {
       }
       setNotFound(false);
       const jsonData = await response.json();
-      const uid = jsonData["uid"]
-      router.push(`/university/${[uid]}`);
-
+      const uid = jsonData["uid"];
+      router.push(`/university/${uid}`);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
+      setNotFound(true);
     }
   };
 
   return (
     <>
-      <div className="relative w-full max-w-md mx-auto">
-        
-        <form onSubmit={getUid}>
+      <div className="relative w-full max-w-4xl mx-auto my-40">
+        <form onSubmit={getUid} className="flex">
           <Input
             type="text"
             value={query}
             onChange={handleChange}
-            placeholder="Enter a university"
-            className="flex-1 px-4 py-2 border rounded-l-lg" />
-          <Button variant="default" onClick={getUid}>Search</Button>
+            placeholder="Enter a university to get started"
+            className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0 animate-pulse"
+          />
+          <Button className='mx-4 w-20 flex shadow-lg' variant="default" onClick={getUid}>Search</Button>
         </form>
 
-
-
         {suggestions.length > 0 && (
-          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
+          <ul className="relative z-10 w-full mt-1 bg-white dark:bg-slate-500 dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion}

@@ -10,7 +10,7 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ page_name }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     if (darkMode) {
@@ -28,10 +28,13 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
     <>
       <nav className="shadow-lg bg-secondary border-b-1 border-gray-400">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <img src="/logo.png" alt="Brand Logo" className="h-10 w-10" />
-              <Link href="/" className="text-2xl font-bold text-black-400 dark:text-white">NoteApp</Link>
+            <Link href="/">
+                
+                  <img src={darkMode ? "/logo_dark.png" : "/logo_light.png"} alt="Brand Logo" className="h-15 w-16" />
+              </Link>
+              <Link href="/" className="ml-4 text-2xl font-bold text-black-400 dark:text-white">NoteHub</Link>
             </div>
             
             {page_name !== "university" && (

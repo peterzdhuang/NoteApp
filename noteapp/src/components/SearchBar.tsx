@@ -65,24 +65,24 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className="relative w-full max-w-4xl mx-auto my-40">
+      <div className="relative w-full max-w-4xl mx-auto">
         <form onSubmit={getUid} className="flex">
           <Input
             type="text"
             value={query}
             onChange={handleChange}
             placeholder="Enter a university to get started"
-            className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0 animate-pulse"
+            className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0"
           />
           <Button className='mx-4 w-20 flex shadow-lg' variant="default" onClick={getUid}>Search</Button>
         </form>
 
         {suggestions.length > 0 && (
-          <ul className="relative z-10 w-full mt-1 bg-white dark:bg-slate-500 dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
+          <ul className="relative z-10 w-full mt-1 bg-white dark:bg-secondary dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 {suggestion}

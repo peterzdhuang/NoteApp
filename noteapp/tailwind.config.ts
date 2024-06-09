@@ -18,10 +18,6 @@ const config = {
       },
     },
     extend: {
-      backgroundImage: {
-        'uni-light': "url('/BG_university_dark.svg')",
-        'uni-dark': "url('/BG_university.svg')",
-      },
       
       height: {
         '94vh': '94vh'

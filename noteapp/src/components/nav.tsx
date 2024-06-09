@@ -10,7 +10,7 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ page_name }) => {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     if (darkMode) {

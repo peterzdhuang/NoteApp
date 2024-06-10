@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { MoonIcon, SunIcon } from "lucide-react";
+import { ArrowRightCircleIcon, MoonIcon, SunIcon } from "lucide-react";
 
 
 interface NavProps {
@@ -46,8 +46,18 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
             )}
             
             <div className="flex items-center space-x-4">
-              <Button variant="default" className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'><Link href="/sign-in">Sign-in</Link></Button>
-              <Button variant="default" className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'><Link href="/sign-up">Sign-up</Link></Button>
+              <Button variant="default" 
+                className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'>
+                <Link href="/sign-in">Sign-in</Link>
+                <ArrowRightCircleIcon className='mx-1 animate-pulse will-change-auto'/>
+                </Button>
+              
+              <Button variant="default" 
+                className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'>
+                <Link href="/sign-up">Sign-up</Link>
+                <ArrowRightCircleIcon className='mx-1 animate-pulse will-change-auto'/>
+              </Button>
+              
               <Button variant="default" onClick={toggleDarkMode}>
                 {darkMode ? <SunIcon /> : <MoonIcon />}
               </Button>

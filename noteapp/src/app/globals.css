@@ -78,3 +78,21 @@ h2 {
 .searchbar{
   margin-left: 2vh;
 }
+
+.right-arrow {
+  position: relative; /* Ensure the element can be moved */
+  animation: moveRight 1s infinite;
+  will-change: transform; 
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px); /* Adjust the value to control the distance */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

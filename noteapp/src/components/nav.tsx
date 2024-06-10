@@ -31,10 +31,8 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
             <Link href="/">
-                
                   <img src={darkMode ? "/logo_dark.png" : "/logo_light.png"} alt="Brand Logo" className="h-15 w-16" />
               </Link>
-              <Link href="/" className="ml-4 text-2xl font-bold text-black-400 dark:text-white">NoteHub</Link>
             </div>
             
             {page_name !== "university" && (
@@ -48,8 +46,8 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
             )}
             
             <div className="flex items-center space-x-4">
-              <Button variant="default"><Link href="/sign-in">Sign-in</Link></Button>
-              <Button variant="default" className="bg-primary/80"><Link href="/sign-up">Sign-up</Link></Button>
+              <Button variant="default" className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'><Link href="/sign-in">Sign-in</Link></Button>
+              <Button variant="default" className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'><Link href="/sign-up">Sign-up</Link></Button>
               <Button variant="default" onClick={toggleDarkMode}>
                 {darkMode ? <SunIcon /> : <MoonIcon />}
               </Button>

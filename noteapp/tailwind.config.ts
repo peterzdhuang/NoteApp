@@ -10,6 +10,9 @@ const config = {
 	],
   prefix: "",
   theme: {
+    fontFamily: {
+      'sans': ['Roboto', 'sans-serif'],
+    },
     container: {
       center: true,
       padding: "2rem",

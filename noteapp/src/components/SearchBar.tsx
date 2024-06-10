@@ -71,7 +71,7 @@ const SearchBar = () => {
             type="text"
             value={query}
             onChange={handleChange}
-            placeholder="Enter a university to get started"
+            placeholder="Find your university"
             className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0"
           />
           <Button className='mx-4 w-20 flex shadow-lg' variant="default" onClick={getUid}>Search</Button>

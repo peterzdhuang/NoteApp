@@ -6,6 +6,7 @@ import { FileQuestionIcon, FlagIcon, NewspaperIcon, TagIcon, HeartIcon, MoonIcon
 import { Badge } from "@/components/ui/badge";
 import PDFViewer from "@/components/pdf";
 import Nav from '@/components/nav';
+import { useState, useEffect } from "react";
 
 const PlaceholderCard = () => (
   <Card className="w-full max-w-[300px] h-[200px] flex flex-col bg-gray-200 rounded-lg overflow-hidden shadow-md">
@@ -21,6 +22,51 @@ const PlaceholderCard = () => (
 );
 
 export default function Home() {
+  const [fid, setFid] = useState('');
+  const [cid, setCid] = useState('');
+  const [uid, setUid] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [file, setFile] = useState([]);
+  useEffect(() => {
+    // Parse URL on the client side
+    const pathArray = window.location.pathname.split('/');
+    const cidFromPath = pathArray[pathArray.length - 3];
+    const uidFromPath = pathArray[pathArray.length - 5];
+    const fidFromPath = pathArray[pathArray.length - 1];
+    setFid(fidFromPath);
+    setUid(uidFromPath);
+    setCid(cidFromPath);
+  }, []);
+
+  console.log(fid, uid, cid);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      
+      try {
+        const res = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/RetrievePDF?code=Gu8Q0bfstlXK8Tf_w5xVXJt-Ll0zuBubcNkR-6BA6U9jAzFuJ6KgIw%3D%3D&fid=${encodeURIComponent(fid)}`);
+        const data = await res.json()
+        setFile(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching file:', error);
+        setLoading(true);
+      }
+    };
+
+    if (fid) {
+      fetchData();
+    }
+  }, [fid]);
+  
+  if (loading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
+  console.log(file[0])
+
   return (
     <>
       <Nav page_name={'notes'}></Nav>
@@ -29,13 +75,13 @@ export default function Home() {
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <div>
             <h1 className="scroll-m-20 text-4xl tracking-tight lg:text-5xl my-6">
-              Something.pdf
+              {file[0].fileName}
             </h1>
 
             <Breadcrumb>
               <BreadcrumbList className="flex items-center space-x-4 text-2xl">
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/university">
+                  <BreadcrumbLink href={`/university/${uid}`}>
                     University
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -43,7 +89,7 @@ export default function Home() {
                 <BreadcrumbSeparator />
                 
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/class">
+                  <BreadcrumbLink href={`/university/${uid}/course/${cid}`}>
                     Course
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -94,7 +140,7 @@ export default function Home() {
         </Card>
 
         <div className="ml-20 w-3/4 h-[800px] shadow-lg overflow-auto">
-          <PDFViewer pdfUrl="http://localhost:3001/pdf" />
+          <PDFViewer pdfUrl= {`http://localhost:3001/pdf/${encodeURIComponent(file[0].fileName)}`} />
         </div>
         
       </div>

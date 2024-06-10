@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
+import CreateCourse from '@/components/createCourse';
 
 const coursePage = () => { 
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const coursePage = () => {
   useEffect(() => {
     // Parse URL on the client side
     const pathArray = window.location.pathname.split('/');
+    
     const uidFromPath = pathArray[pathArray.length - 1];
     setUid(uidFromPath);
   }, []);
@@ -114,6 +116,7 @@ const coursePage = () => {
             </Link>
           ))}
         </div>
+        <CreateCourse uid = {uid}/>
       </div>
     </>
   );

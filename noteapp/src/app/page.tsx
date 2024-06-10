@@ -53,7 +53,7 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-secondary text-white py-6 dark:text-black">
+      <footer className="bg-secondary text-black py-6 dark:text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <p>&copy; 2024 NoteHub. All rights reserved.</p>

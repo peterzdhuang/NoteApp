@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import CreateUniversity from './createUniversity';
 
 const SearchBar = () => {
   const router = useRouter();
@@ -90,7 +91,11 @@ const SearchBar = () => {
             ))}
           </ul>
         )}
-        {notFound && <div className="mt-2 text-primary-500">University not found</div>}
+        {notFound && 
+          <div className="mt-2 text-primary-500">
+            <CreateUniversity/>
+            Add your university
+          </div>}
       </div>
     </>
   );

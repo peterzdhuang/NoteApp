@@ -1,6 +1,5 @@
 // pages/index.js
 'use client'
-import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CreateFile from '@/components/createFile';

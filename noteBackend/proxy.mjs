@@ -11,7 +11,7 @@ app.get('/pdf/:name', async (req, res) => {
     try {
         const name = req.params.name
         console.log(name)
-        const response = await fetch(`https://dricandpeter.blob.core.windows.net/pdfblob/${name}`);
+        const response = await fetch(`https://dricandpeter.blob.core.windows.net/pdfblob/${encodeURIComponent(name)}`);
         const pdfBuffer = await response.buffer();
         res.set('Content-Type', 'application/pdf');
         res.send(pdfBuffer);

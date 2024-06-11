@@ -38,8 +38,6 @@ export default function Home() {
     setCid(cidFromPath);
   }, []);
 
-  console.log(fid, uid, cid);
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -65,7 +63,6 @@ export default function Home() {
       <div>Loading...</div>
     )
   }
-  console.log(file[0])
 
   return (
     <>
@@ -140,7 +137,7 @@ export default function Home() {
         </Card>
 
         <div className="ml-20 w-3/4 h-[800px] shadow-lg overflow-auto">
-          <PDFViewer pdfUrl= {`http://localhost:3001/pdf/${encodeURIComponent(file[0].fileName)}`} />
+          <PDFViewer pdfUrl= {`https://dricandpeter.blob.core.windows.net/pdfblob/${encodeURIComponent(file[0].fileName)}`} />
         </div>
         
       </div>

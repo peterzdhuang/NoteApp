@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -122,11 +121,8 @@ func getToken() {
 
 func main() {
 	initializer.LoadEnv()
-	getToken()
 	router := gin.Default()
 	router.Use(corsMiddleware())
-	router.POST("/upload", handleUpload)
-	router.GET("/getlink/:fileId", handleGetFileLink)
 	router.POST("/signup", signUp)
 	router.POST("/login", login)
 	router.GET("/", middleware.RequireAuth(), handle)
@@ -135,87 +131,6 @@ func main() {
 
 func handle(c *gin.Context) {
 	fmt.Println("hi")
-}
-
-func handleUpload(c *gin.Context) {
-	var fileData struct {
-		FileName string `json:"fileName" binding:"required"`
-		Rating   int    `json:"rating" binding:"required"`
-		Uploader string `json:"uploader" binding:"required"`
-		ClassID  string `json:"classId" binding:"required"`
-	}
-
-	if srv == nil {
-		log.Printf("Drive service not initialized")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Drive service not initialized"})
-		return
-	}
-
-	file, err := c.FormFile("file")
-	if err != nil {
-		log.Printf("Unable to get file from request: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get file"})
-		return
-	}
-
-	f, err := file.Open()
-	if err != nil {
-		log.Printf("Unable to open file: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Unable to open file"})
-		return
-	}
-	defer f.Close()
-
-	fileMetadata := &drive.File{
-		Name: file.Filename,
-	}
-
-	uploadedFile, err := srv.Files.Create(fileMetadata).Media(f).Do()
-	if err != nil {
-		log.Printf("Unable to upload file: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to upload file"})
-		return
-	}
-
-	if err := c.BindJSON(&fileData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"fileId": uploadedFile.Id})
-}
-
-func handleGetFileLink(c *gin.Context) {
-	if srv == nil {
-		log.Printf("Drive service not initialized")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Drive service not initialized"})
-		return
-	}
-
-	fileID := c.Param("fileId")
-
-	file, err := srv.Files.Get(fileID).Fields("webViewLink").Do()
-
-	if err != nil {
-		log.Printf("Unable to get file metadata: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get file metadata"})
-		return
-	}
-
-	permission := &drive.Permission{
-		Role: "reader",
-		Type: "anyone",
-	}
-	_, err = srv.Permissions.Create(fileID, permission).Do()
-	if err != nil {
-		log.Fatalf("Unable to update file permissions: %v", err)
-	}
-
-	fileLink := file.WebViewLink
-	index := strings.Index(fileLink, "view")
-	fileLink = fileLink[:index] + "preview"
-
-	c.JSON(http.StatusOK, gin.H{"fileLink": fileLink})
 }
 
 func signUp(c *gin.Context) {

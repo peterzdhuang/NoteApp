@@ -10,10 +10,16 @@ const CreateFile: React.FC = (props) => {
     const [message, setMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
 
+    const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFileName = event.target.value;
+        if (selectedFileName) {
+            setFileName(selectedFileName);
+        }
+    };
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
         if (selectedFile) {
-            setFileName(selectedFile.name);
             setFile(selectedFile);
         }
     };
@@ -85,7 +91,7 @@ const CreateFile: React.FC = (props) => {
                                 <input
                                     type="text"
                                     id="name"
-                                    onChange={handleFileChange}
+                                    onChange={handleFileNameChange}
                                     required
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                                 />

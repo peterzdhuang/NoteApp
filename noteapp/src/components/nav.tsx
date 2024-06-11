@@ -26,7 +26,7 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
 
   return (
     <>
-      <nav className="shadow-lg bg-secondary border-b-1 border-gray-400">
+      <nav className="shadow-lg bg-secondary border-b-1 border-gray-400 fixed top-0 left-0 right-0 z-50">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">

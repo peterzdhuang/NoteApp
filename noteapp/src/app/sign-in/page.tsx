@@ -7,15 +7,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function signin() {
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event.target.elements)
+    const form = event.target as HTMLFormElement;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const passwordInput = form.elements.namedItem('password') as HTMLInputElement;
+    
     const formData = {
-      email: event.target.elements.email.value,
-      password: event.target.elements.password.value
+      email: emailInput.value,
+      password: passwordInput.value
     };
-
 
     try {
       const response = await fetch('http://localhost:3001/login', {
@@ -31,7 +32,6 @@ export default function signin() {
       }
 
       console.log('Form submitted successfully!');
-      // Optionally, you can handle the response from the server here
     } catch (error) {
       console.error('There was a problem with the form submission:', error);
     }

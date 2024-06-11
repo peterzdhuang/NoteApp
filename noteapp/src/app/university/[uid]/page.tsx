@@ -1,20 +1,22 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 import CreateCourse from '@/components/createCourse';
 
-const CoursePage = () => { 
+interface Course {
+  rowKey: string;
+  courseName: string;
+}
+
+const CoursePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [classes, setClasses] = useState([]);
+  const [classes, setClasses] = useState<Course[]>([]);
   const [uid, setUid] = useState('');
 
   useEffect(() => {
     const pathArray = window.location.pathname.split('/');
-    
     const uidFromPath = pathArray[pathArray.length - 1];
     setUid(uidFromPath);
   }, []);
@@ -24,7 +26,7 @@ const CoursePage = () => {
       setLoading(true);
       try {
         const res = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getClassesByUid?code=E9eyEuZNzKgqPruXoIuWOeUg7p9B4YyrAF2XNExxPGOxAzFujBjnPQ%3D%3D&uid=${encodeURIComponent(uid)}`);
-        const data = await res.json()
+        const data = await res.json();
         setClasses(data);
         setLoading(false);
       } catch (error) {
@@ -41,24 +43,21 @@ const CoursePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSemester, setSelectedSemester] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  
 
-  
   const placeholderDescription = 'This is a placeholder description for the course.';
   const placeholderSemester = 'Select a Semester';
   const placeholderDepartment = 'Select a Department';
 
-
-  
   if (loading) {
     return <div>Loading...</div>;
-  } 
-  // const cardTitles = ["test"];
-  // const filteredCards = cardTitles.filter(title => 
-  //   title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  //   (selectedSemester ? title.includes(selectedSemester) : true) &&
-  //   (selectedDepartment ? title.includes(selectedDepartment) : true)
-  // );
+  }
+
+  const filteredClasses = classes.filter((course) =>
+    course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedSemester ? course.courseName.includes(selectedSemester) : true) &&
+    (selectedDepartment ? course.courseName.includes(selectedDepartment) : true)
+  );
+
   return (
     <>
       <Nav page_name='university' />
@@ -102,9 +101,9 @@ const CoursePage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {classes.map((course, index) => (
-            <Link href={`/university/${uid}/course/${course.rowKey}`} key={index}> {/* Use Link with href */}
-              <a className="w-full"> {/* Add anchor tag for styling */}
+          {filteredClasses.map((course, index) => (
+            <Link href={`/university/${uid}/course/${course.rowKey}`} key={index}>
+              <a className="w-full">
                 <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
                   <CardContent className="flex-1 flex flex-col p-4">
                     <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
@@ -116,7 +115,7 @@ const CoursePage = () => {
             </Link>
           ))}
         </div>
-        <CreateCourse uid = {uid}/>
+        <CreateCourse uid={uid} />
       </div>
     </>
   );

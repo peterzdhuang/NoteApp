@@ -12,18 +12,18 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+
 export default function signup() {
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event.target.elements)
+    const form = event.target as HTMLFormElement;
     const formData = {
-      firstName: event.target.elements.firstName.value,
-      lastName: event.target.elements.lastName.value,
-      email: event.target.elements.email.value,
-      password: event.target.elements.password.value
+      firstName: (form.elements.namedItem('firstName') as HTMLInputElement).value,
+      lastName: (form.elements.namedItem('lastName') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      password: (form.elements.namedItem('password') as HTMLInputElement).value
     };
-
+    console.log(formData);
 
     try {
       const response = await fetch('http://localhost:3001/signup', {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,10 @@ const SearchBar = () => {
     4: "University of Toronto"
   };
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [notFound, setNotFound] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setQuery(input);
 
@@ -35,12 +35,12 @@ const SearchBar = () => {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
+  const handleSuggestionClick = (suggestion: string) => {
     setQuery(suggestion);
     setSuggestions([]);
   };
 
-  const getUid = async (e) => {
+  const getUid = async (e: FormEvent) => {
     e.preventDefault();
 
     try {

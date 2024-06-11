@@ -1,127 +1,130 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-const CreateFile: React.FC = (props) => {
-    const cid = props.cid
-    const uid = props.uid
-    const router = useRouter();
-    const [fileName, setFileName] = useState('');
-    const [file, setFile] = useState<File | null>(null);
-    const [message, setMessage] = useState('');
-    const [showModal, setShowModal] = useState(false);
+interface CreateFileProps {
+  cid: string;
+  uid: string;
+}
 
-    const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFileName = event.target.value;
-        if (selectedFileName) {
-            setFileName(selectedFileName);
-        }
-    };
+const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
+  const router = useRouter();
+  const [fileName, setFileName] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = event.target.files?.[0];
-        if (selectedFile) {
-            setFile(selectedFile);
-        }
-    };
+  const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFileName = event.target.value;
+    if (selectedFileName) {
+      setFileName(selectedFileName);
+    }
+  };
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
 
-        try {
-            if (!file) {
-                setMessage('Please select a file');
-                return;
-            }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-            const formData = new FormData();
-            formData.append('file', file);
+    try {
+      if (!file) {
+        setMessage('Please select a file');
+        return;
+      }
 
-            const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(fileName)}`, {
-                method: 'POST',
-                body: formData
-            });
+      const formData = new FormData();
+      formData.append('file', file);
 
-            if (response.ok) {
-                const data = await response.json();
-                
-                router.push(`/university/${uid}/course/${data.fid}/file/${data.fid}`);
-            } else {
-                console.error('Failed to upload file:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    };
+      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(fileName)}`, {
+        method: 'POST',
+        body: formData
+      });
 
-    const openModal = () => {
-        setShowModal(true);
-        setMessage('');
-    };
+      if (response.ok) {
+        const data = await response.json();
+        
+        router.push(`/university/${uid}/course/${cid}/file/${data.fid}`);
+      } else {
+        console.error('Failed to upload file:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
-    const closeModal = () => {
-        setShowModal(false);
-        setFileName('');
-        setFile(null);
-    };
+  const openModal = () => {
+    setShowModal(true);
+    setMessage('');
+  };
 
-    return (
-        <div>
+  const closeModal = () => {
+    setShowModal(false);
+    setFileName('');
+    setFile(null);
+  };
+
+  return (
+    <div>
+      <button 
+        onClick={openModal} 
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Create File
+      </button>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
             <button 
-                onClick={openModal} 
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+              onClick={closeModal}
             >
-                Create File
+              &times;
             </button>
-
-            {showModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-                        <button 
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-                            onClick={closeModal}
-                        >
-                            &times;
-                        </button>
-                        <h2 className="text-xl font-semibold mb-4">Upload PDF File</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-                                    Pdf Name:
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    onChange={handleFileNameChange}
-                                    required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-                                    Choose a PDF File:
-                                </label>
-                                <input
-                                    type="file"
-                                    id="file"
-                                    accept=".pdf"
-                                    onChange={handleFileChange}
-                                    required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 hover:cursor-pointer"
-                                />
-                            </div>
-                            <button 
-                                type="submit" 
-                                className="bg-blue-500 text-white py-2 px-4 rounded"
-                            >
-                                Upload File
-                            </button>
-                            {message && <p className="text-red-500">{message}</p>}
-                        </form>
-                    </div>
-                </div>
-            )}
+            <h2 className="text-xl font-semibold mb-4">Upload PDF File</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
+                  Pdf Name:
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  onChange={handleFileNameChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
+                  Choose a PDF File:
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 hover:cursor-pointer"
+                />
+              </div>
+              <button 
+                type="submit" 
+                className="bg-blue-500 text-white py-2 px-4 rounded"
+              >
+                Upload File
+              </button>
+              {message && <p className="text-red-500">{message}</p>}
+            </form>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default CreateFile;

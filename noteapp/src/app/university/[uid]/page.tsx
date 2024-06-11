@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -6,13 +7,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 import CreateCourse from '@/components/createCourse';
 
-const coursePage = () => { 
+const CoursePage = () => { 
   const [loading, setLoading] = useState(false);
   const [classes, setClasses] = useState([]);
   const [uid, setUid] = useState('');
 
   useEffect(() => {
-    // Parse URL on the client side
     const pathArray = window.location.pathname.split('/');
     
     const uidFromPath = pathArray[pathArray.length - 1];
@@ -122,4 +122,4 @@ const coursePage = () => {
   );
 };
 
-export default coursePage;
+export default CoursePage;

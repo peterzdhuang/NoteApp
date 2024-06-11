@@ -50,7 +50,7 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
                 className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'>
                 <Link href="/sign-in">Sign-in</Link>
                 <ArrowRightCircleIcon className='mx-1 animate-pulse will-change-auto'/>
-                </Button>
+              </Button>
               
               <Button variant="default" 
                 className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'>

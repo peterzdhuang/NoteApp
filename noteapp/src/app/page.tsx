@@ -23,14 +23,16 @@ export default function LandingPage() {
           <SearchBar />
         </div>
 
-        {/* About Section */}
-        <About></About>
-
         {/* Featured Notes Section */}
         <FeatureSection/>
 
         {/* Recent Notes Section */}
         <RecentSection/>
+        
+        {/* About Section */}
+        <div className="my-10">
+          <About></About>
+        </div>
         
       </main>
 

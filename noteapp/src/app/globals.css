@@ -80,3 +80,8 @@ h2 {
 }
 
 
+.about {
+  background-image: url('/style.svg');
+  background-size: cover;
+  background-position: center;
+}

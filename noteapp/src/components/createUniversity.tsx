@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { Button } from './ui/button';
 
 const CreateUniversity: React.FC = () => {
     const [universityName, setUniversityName] = useState('');
@@ -44,22 +45,23 @@ const CreateUniversity: React.FC = () => {
 
     return (
         <div>
-            <button 
+            <Button 
                 onClick={openModal} 
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                className="bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300 text-white py-2 px-4 rounded"
             >
                 Create University
-            </button>
+            </Button>
 
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-                        <button 
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                        <Button 
+                            variant="default"
+                            className="absolute top-4 right-4 text-white"
                             onClick={closeModal}
                         >
                             &times;
-                        </button>
+                        </Button>
                         <h2 className="text-xl font-semibold mb-4">Create University</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
@@ -71,16 +73,18 @@ const CreateUniversity: React.FC = () => {
                                     id="universityName"
                                     value={universityName}
                                     onChange={(e) => setUniversityName(e.target.value)}
+                                    placeholder='Enter the name of your university here'
                                     required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                    className="mt-1 block w-full rounded-md px-2 border-black border-2 shadow-sm focus:ring focus:ring-white"
                                 />
                             </div>
-                            <button 
+                            <Button 
+                                variant="default"
                                 type="submit" 
-                                className="bg-blue-500 text-white py-2 px-4 rounded"
+                                className="bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300 text-white py-2 px-4 rounded"
                             >
                                 Create University
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 </div>

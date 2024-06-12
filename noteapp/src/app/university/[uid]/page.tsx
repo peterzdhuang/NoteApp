@@ -103,15 +103,13 @@ const CoursePage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredClasses.map((course, index) => (
             <Link href={`/university/${uid}/course/${course.rowKey}`} key={index}>
-              <a className="w-full">
-                <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
-                  <CardContent className="flex-1 flex flex-col p-4">
-                    <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
-                    <div className="text-gray-600">{placeholderDescription}</div>
-                    <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
-                  </CardContent>
-                </Card>
-              </a>
+              <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
+                <CardContent className="flex-1 flex flex-col p-4">
+                  <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
+                  <div className="text-gray-600">{placeholderDescription}</div>
+                  <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
+                </CardContent>
+              </Card>
             </Link>
           ))}
         </div>

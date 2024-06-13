@@ -23,10 +23,8 @@ export default function signup() {
       email: (form.elements.namedItem('email') as HTMLInputElement).value,
       password: (form.elements.namedItem('password') as HTMLInputElement).value
     };
-    console.log(formData);
-
     try {
-      const response = await fetch('http://localhost:3001/signup', {
+      const response = await fetch('https://pdfstoragefunctionapp.azurewebsites.net/api/Signup?code=3Qu9ojpaiqOI7a3ASW2joJSRCliRw_U2YblWljFl3Ns5AzFujvUjlg%3D%3D', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -92,7 +90,7 @@ export default function signup() {
 
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link href="#" className="underline">
+          <Link href="/login" className="underline">
             Sign in
           </Link>
         </div>

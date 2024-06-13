@@ -21,6 +21,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "pdfjs-dist": "^3.11.174",
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

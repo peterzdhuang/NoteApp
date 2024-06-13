@@ -3,14 +3,33 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRightCircleIcon, MoonIcon, SunIcon } from "lucide-react";
-
-
+import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie'
 interface NavProps {
     page_name: string;
 }
 
 const Nav: React.FC<NavProps> = ({ page_name }) => {
   const [darkMode, setDarkMode] = useState(false);
+  const [IsSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get('Authorization');
+    console.log(token)
+    if (token) {
+      try {
+        const decodedToken: { exp: number } = jwtDecode(token);
+        if (decodedToken.exp * 1000 > Date.now()) {
+          setIsSignedIn(true);
+        } else {
+          Cookies.remove('jwtToken');
+        }
+      } catch (e) {
+        console.error('Invalid token:', e);
+        Cookies.remove('jwtToken');
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -48,7 +67,7 @@ const Nav: React.FC<NavProps> = ({ page_name }) => {
             <div className="flex items-center space-x-4">
               <Button variant="default" 
                 className='bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300'>
-                <Link href="/sign-in">Sign-in</Link>
+                <Link href="/login">Login</Link>
                 <ArrowRightCircleIcon className='mx-1 animate-pulse will-change-auto'/>
               </Button>
               

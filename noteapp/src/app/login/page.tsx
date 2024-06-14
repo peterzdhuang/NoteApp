@@ -5,8 +5,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRouter } from "next/navigation";
 
-export default function signin() {
+export default function login() {
+  const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -19,19 +21,20 @@ export default function signin() {
     };
 
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      const response = await fetch('https://pdfstoragefunctionapp.azurewebsites.net/api/Login?code=wpcPGoqbA7oQao1YUlCsWPhoxIx_5Ckkfve37SHqHXJMAzFuTJ_f7w%3D%3D', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      console.log('Form submitted successfully!');
+      router.push("/");
+      
     } catch (error) {
       console.error('There was a problem with the form submission:', error);
     }

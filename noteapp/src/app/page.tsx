@@ -6,9 +6,12 @@ import Hero from "@/components/landing_hero";
 import About from "@/components/landing_about";
 import FeatureSection from "@/components/landing_featured"
 import RecentSection from "@/components/landing_recent";
-import router from "next/router";
+import Cookies from 'js-cookie';
 
 export default function LandingPage() {
+  const authToken = Cookies.get('authToken');
+  console.log(authToken)
+
   return (
     <div className="min-h-screen bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/background.svg')" }}>
       <Nav page_name={"university"} />

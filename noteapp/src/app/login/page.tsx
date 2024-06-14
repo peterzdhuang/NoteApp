@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation";
 
-export default function signin() {
+export default function login() {
   const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,15 +31,6 @@ export default function signin() {
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
-      }
-      console.log(response.headers)
-      const setCookieHeader = response.headers.get('Set-Cookie');
-      console.log(setCookieHeader)
-      if (setCookieHeader) {
-          // Set the cookie in the browser
-          document.cookie = setCookieHeader;
-      } else {
-        console.error('There was a problem with the login')
       }
 
       router.push("/");

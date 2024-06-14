@@ -8,6 +8,10 @@ import CreateCourse from '@/components/createCourse';
 interface Course {
   rowKey: string;
   courseName: string;
+  instructor: string;
+  semester: string;
+  department: string;
+  year: number;
 }
 
 const CoursePage: React.FC = () => {
@@ -54,14 +58,14 @@ const CoursePage: React.FC = () => {
 
   const filteredClasses = classes.filter((course) =>
     course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedSemester ? course.courseName.includes(selectedSemester) : true) &&
-    (selectedDepartment ? course.courseName.includes(selectedDepartment) : true)
+    (selectedSemester ? course.semester.includes(selectedSemester) : true) &&
+    (selectedDepartment ? course.department.includes(selectedDepartment) : true)
   );
 
   return (
     <>
       <Nav page_name='university' />
-      <div className="p-4">
+      <div className="p-4 min-h-screen bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/background.svg')" }}>
         <div className="mb-4 flex justify-between items-center">
           <div className="flex items-center">
             <input
@@ -69,17 +73,14 @@ const CoursePage: React.FC = () => {
               placeholder="Search courses..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="p-2 border rounded-lg w-full max-w-xs"
+              className="min-w-40 mt-1 w-full rounded-md px-2 border-black border-2 shadow-sm focus:outline-none"
             />
-            <svg className="w-6 h-6 ml-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M15 10a5 5 0 11-10 0 5 5 0 0110 0z"></path>
-            </svg>
           </div>
-          <div className="flex items-center">
+          <div className="custom-select flex items-center">
             <select 
               value={selectedSemester} 
               onChange={(e) => setSelectedSemester(e.target.value)}
-              className="p-2 border rounded-lg ml-4"
+              className="p-2 border-1 border-black shadow-lg ml-4 focus:outline-double dark:text-black"
             >
               <option value="">{placeholderSemester}</option>
               <option value="Fall">Fall</option>
@@ -90,7 +91,7 @@ const CoursePage: React.FC = () => {
             <select 
               value={selectedDepartment} 
               onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="p-2 border rounded-lg ml-4"
+              className="p-2 border-1 border-black shadow-lg ml-4 focus:outline-double dark:text-black"
             >
               <option value="">{placeholderDepartment}</option>
               <option value="CMPT">Computer Science</option>
@@ -103,15 +104,13 @@ const CoursePage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredClasses.map((course, index) => (
             <Link href={`/university/${uid}/course/${course.rowKey}`} key={index}>
-              <a className="w-full">
-                <Card className="flex flex-col items-start bg-primary hover:bg-secondary rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
-                  <CardContent className="flex-1 flex flex-col p-4">
-                    <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
-                    <div className="text-gray-600">{placeholderDescription}</div>
-                    <div className="text-xs mt-auto text-gray-500">{selectedSemester ? selectedSemester : placeholderSemester} - {selectedDepartment ? selectedDepartment : placeholderDepartment}</div>
-                  </CardContent>
-                </Card>
-              </a>
+              <Card className="flex flex-col items-start bg-neutral-800 dark:bg-zinc-800 hover:bg-primary overflow-hidden shadow-md transition-transform transform hover:scale-105 w-full">
+                <CardContent className="flex-1 flex flex-col p-4">
+                  <div className="text-lg text-white font-medium mb-2">{course.courseName}</div>
+                  <div className="text-gray-600">{placeholderDescription}</div>
+                  <div className="text-xs mt-auto text-gray-500">{course.semester} - {course.department}</div>
+                </CardContent>
+              </Card>
             </Link>
           ))}
         </div>

@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Input } from "@/components/ui/input";
@@ -9,17 +7,25 @@ import CreateUniversity from './createUniversity';
 
 const SearchBar = () => {
   const router = useRouter();
-  const universities = {
-    1: "University of Alberta",
-    2: "Harvard University",
-    3: "Stanford University",
-    4: "University of Toronto"
-  };
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [notFound, setNotFound] = useState(false);
+  const [universities, setUniversities] = useState<Record<number, string>>({});
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    fetch('https://pdfstoragefunctionapp.azurewebsites.net/api/ListOfUniversities?code=NL2Au6N8mDdUBjxuLE4481ab1Knx51QMsTG63kGD75F0AzFuqwUhpw%3D%3D')
+      .then(response => response.json())
+      .then(data => {
+        const universities: Record<number, string> = {};
+        data.universityNames.forEach((name: string, index: number) => {
+          universities[index + 1] = name;
+        });
+        setUniversities(universities);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setQuery(input);
 
@@ -54,10 +60,11 @@ const SearchBar = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      setNotFound(false);
+
       const jsonData = await response.json();
       const uid = jsonData["uid"];
       router.push(`/university/${uid}`);
+      setNotFound(false);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       setNotFound(true);
@@ -65,39 +72,42 @@ const SearchBar = () => {
   };
 
   return (
-    <>
-      <div className="relative w-full max-w-4xl mx-auto">
-        <form onSubmit={getUid} className="flex">
-          <Input
-            type="text"
-            value={query}
-            onChange={handleChange}
-            placeholder="Find your university"
-            className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0"
-          />
-          <Button className='mx-4 w-20 flex shadow-lg' variant="default" onClick={getUid}>Search</Button>
-        </form>
+    <div className="relative w-full max-w-4xl mx-auto">
+      <form onSubmit={getUid} className="flex">
+        <Input
+          type="text"
+          value={query}
+          onChange={handleChange}
+          placeholder="Find your university"
+          className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0"
+          aria-label="University Search"
+        />
+        <Button type="submit" className="mx-4 w-20 flex shadow-lg" variant="default">Search</Button>
+      </form>
 
-        {suggestions.length > 0 && (
-          <ul className="relative z-10 w-full mt-1 bg-white dark:bg-secondary dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
-            {suggestions.map((suggestion) => (
-              <li
-                key={suggestion}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600"
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
-        {notFound && 
-          <div className="mt-2 text-primary-500">
-            <CreateUniversity/>
-            Add your university
-          </div>}
-      </div>
-    </>
+      {suggestions.length > 0 && (
+        <ul className="relative z-10 w-full mt-1 bg-white dark:bg-secondary dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
+          {suggestions.map((suggestion) => (
+            <li
+              key={suggestion}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600"
+              onClick={() => handleSuggestionClick(suggestion)}
+              role="option"
+              aria-selected={query === suggestion}
+            >
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {notFound && (
+        <div className="mt-2 text-primary-500">
+          <CreateUniversity />
+          <span>Add your university</span>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -49,7 +49,7 @@ const CreateUniversity: React.FC = () => {
                 onClick={openModal} 
                 className="bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-300 text-white py-2 px-4 rounded"
             >
-                Create University
+                Add your University
             </Button>
 
             {showModal && (

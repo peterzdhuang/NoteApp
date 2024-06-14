@@ -1,6 +1,7 @@
-'use client'
+'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { Button } from './ui/button';
 
 interface CreateCourseProps {
   uid: string;
@@ -57,25 +58,31 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ uid }) => {
     setYear('');
   };
 
+  const getLastTwentyYears = () => {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 20 }, (_, i) => (currentYear - i).toString());
+  };
+
   return (
     <div>
-      <button 
+      <Button 
+        variant="default"
         onClick={openModal} 
-        className="bg-blue-500 text-white py-2 px-4 rounded"
+        className="bg-zinc-600 dark:bg-zinc-700 dark:hover:bg-secondary text-white my-4"
       >
         Create Course
-      </button>
+      </Button>
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-            <button 
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-              onClick={closeModal}
-            >
+            <Button 
+              variant="default"
+              className="absolute top-4 right-4 text-white"
+              onClick={closeModal}>
               &times;
-            </button>
-            <h2 className="text-xl font-semibold mb-4">Create University</h2>
+            </Button>
+            <h2 className="text-xl font-semibold mb-4">Add a course</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="courseName" className="block text-sm font-medium text-gray-700">
@@ -87,7 +94,8 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ uid }) => {
                   value={courseName}
                   onChange={(e) => setCourseName(e.target.value)}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  placeholder='BIO 102'
+                  className="mt-1 block w-full rounded-md px-2 border-black border-2 shadow-sm focus:ring focus:ring-white"
                 />
               </div>
               <div className="mb-4">
@@ -100,7 +108,8 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ uid }) => {
                   value={professorName}
                   onChange={(e) => setProfessorName(e.target.value)}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  placeholder='John A. Smith'
+                  className="mt-1 block w-full rounded-md px-2 border-black border-2 shadow-sm focus:ring focus:ring-white"
                 />
               </div>
               <div className="mb-4">
@@ -112,7 +121,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ uid }) => {
                   value={semester}
                   onChange={(e) => setSemester(e.target.value)}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full px-2 border-black border-2 shadow-sm focus:ring focus:ring-white "
                 >
                   <option value="" disabled>Select semester</option>
                   <option value="fall">Fall</option>
@@ -125,21 +134,25 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ uid }) => {
                 <label htmlFor="year" className="block text-sm font-medium text-gray-700">
                   Year:
                 </label>
-                <input
-                  type="text"
+                <select
                   id="year"
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                />
+                  className="mt-1 block w-full px-2 border-black border-2 shadow-sm focus:ring focus:ring-white"
+                >
+                  <option value="" disabled>Select year</option>
+                  {getLastTwentyYears().map((yearOption) => (
+                    <option key={yearOption} value={yearOption}>{yearOption}</option>
+                  ))}
+                </select>
               </div>
-              <button 
+              <Button 
                 type="submit" 
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                className="mt-1 block w-full px-2 border-black border-2 shadow-sm focus:ring focus:ring-white"
               >
                 Create Course
-              </button>
+              </Button>
             </form>
           </div>
         </div>

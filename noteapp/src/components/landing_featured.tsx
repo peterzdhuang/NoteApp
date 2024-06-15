@@ -1,21 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import PDFThumbnail from "./thumbnail";
 
 const FeatureSection: React.FC = () => {
-    const pdfUrl = ''//'https://dricandpeter.blob.core.windows.net/pdfblob/123.pdf#page=1';
-    const [iframeLoaded, setIframeLoaded] = useState(false);
-    const iframeRef = useRef<HTMLIFrameElement>(null);
-
-    useEffect(() => {
-        const iframe = iframeRef.current;
-        if (iframe && !iframeLoaded) {
-            iframe.onload = () => {
-                setIframeLoaded(true);
-            };
-            iframe.src = pdfUrl;
-        }
-    }, [iframeLoaded, pdfUrl]);
-
     return (
         <section
             className="featured-notes py-10 my-10 rounded-xl shadow-lg"
@@ -36,26 +21,13 @@ const FeatureSection: React.FC = () => {
                     </div>
 
                     <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <iframe
-                            ref={iframeRef}
-                            width="200px"
-                            height="200px"
-                            style={{ border: 'none', display: 'block', margin: 'auto', overflow: 'hidden'}}
-                            loading="lazy"
-                        ></iframe>
+                        <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/123123123123.pdf"}></PDFThumbnail>
                         <h3 className="text-xl font-bold">Note 2</h3>
                         <p className="mt-2">Summary of Note 2...</p>
                     </div>
 
                     <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <iframe
-                            ref={iframeRef}
-                            src={`https://dricandpeter.blob.core.windows.net/pdfblob/123.pdf#page=1`}
-                            width="200px"
-                            height="200px"
-                            style={{ border: 'none', display: 'block', margin: 'auto', overflow: 'hidden'}}
-                            loading="lazy"
-                        ></iframe>
+                        <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/PeterHuangResumeV1.docx (1).pdf"}></PDFThumbnail>
                         <h3 className="text-xl font-bold">Note 3</h3>
                         <p className="mt-2">Summary of Note 3...</p>
                     </div>

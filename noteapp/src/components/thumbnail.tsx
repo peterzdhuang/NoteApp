@@ -19,12 +19,12 @@ const PDFThumbnail: React.FC<PDFThumbnailProps> = ({ pdfUrl }) => {
   return (
     <div className="overflow-hidden rounded-lg shadow">
       <Document
-        file='https://dricandpeter.blob.core.windows.net/pdfblob/seed-mixes.pdf'
+        file={pdfUrl}
       >
         <Thumbnail
           pageNumber={1}  // Change this as needed for different page thumbnails
-          scale={0.5}      // Adjust the scale as needed for your thumbnail size
-          width={200}      // Width of the thumbnail
+          scale={1}
+          width={300}
         />
       </Document>
     </div>

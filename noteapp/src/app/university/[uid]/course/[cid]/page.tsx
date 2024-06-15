@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" >
         {files.map((file, index) => (
           <Link href={`/university/${uid}/course/${cid}/file/${file.rowKey}`} key={index}> {/* Use Link with href */}
             <a className="w-full">{file.fileName}</a>

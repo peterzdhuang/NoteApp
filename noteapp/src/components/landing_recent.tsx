@@ -1,4 +1,5 @@
 import React from "react";
+import PDFThumbnail from "./thumbnail";
 
 const RecentSection: React.FC = () => {
     return (
@@ -14,16 +15,21 @@ const RecentSection: React.FC = () => {
             <h2 className="text-3xl font-bold mb-6 shadow-xl">Recent Notes</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                <h3 className="text-xl font-bold">Recent Note 1</h3>
-                <p className="mt-2">Summary of Recent Note 1...</p>
+                  <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/seed-mixes.pdf"}></PDFThumbnail>
+                  <h3 className="text-xl font-bold">Note 1</h3>
+                  <p className="mt-2">Summary of Note 1...</p>
               </div>
+
               <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                <h3 className="text-xl font-bold">Recent Note 2</h3>
-                <p className="mt-2">Summary of Recent Note 2...</p>
+                  <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/123123123123.pdf"}></PDFThumbnail>
+                  <h3 className="text-xl font-bold">Note 2</h3>
+                  <p className="mt-2">Summary of Note 2...</p>
               </div>
+
               <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                <h3 className="text-xl font-bold">Recent Note 3</h3>
-                <p className="mt-2">Summary of Recent Note 3...</p>
+                  <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/PeterHuangResumeV1.docx (1).pdf"}></PDFThumbnail>
+                  <h3 className="text-xl font-bold">Note 3</h3>
+                  <p className="mt-2">Summary of Note 3...</p>
               </div>
             </div>
           </div>

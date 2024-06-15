@@ -76,7 +76,7 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
     <div>
       <button 
         onClick={openModal} 
-        className="bg-blue-500 text-white py-2 px-4 rounded"
+        className="bg-zinc-500 text-white py-2 px-4 rounded"
       >
         Create File
       </button>

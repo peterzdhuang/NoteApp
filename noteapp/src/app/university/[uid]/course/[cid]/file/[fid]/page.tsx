@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 
 interface FileData {
   fileName: string;
-  // Add other properties if needed
 }
 
 const PlaceholderCard = () => (

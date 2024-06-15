@@ -36,10 +36,15 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
         return;
       }
 
+      let finalFileName = fileName;
+      if (!finalFileName.endsWith('.pdf')) {
+        finalFileName += '.pdf';
+      }
+
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(fileName)}`, {
+      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(finalFileName)}`, {
         method: 'POST',
         body: formData
       });
@@ -114,11 +119,11 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
               </div>
               <button 
                 type="submit" 
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                className="bg-zinc-500 text-white py-2 px-4 rounded"
               >
                 Upload File
               </button>
-              {message && <p className="text-red-500">{message}</p>}
+              {message && <p className="text-secondary">{message}</p>}
             </form>
           </div>
         </div>

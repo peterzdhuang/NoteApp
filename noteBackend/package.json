@@ -11,8 +11,12 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "canvas": "^2.11.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.3.2",
+    "pdf-lib": "^1.17.1",
+    "pdf-thumbnail": "^1.0.6",
+    "pdfjs-dist": "^4.3.136"
   }
 }

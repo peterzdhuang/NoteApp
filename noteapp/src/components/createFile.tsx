@@ -71,7 +71,7 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
     <div>
       <button 
         onClick={openModal} 
-        className="bg-blue-500 text-white py-2 px-4 rounded"
+        className="bg-zinc-600 dark:bg-zinc-700 dark:hover:bg-secondary text-white my-4 py-2 px-4 rounded"
       >
         Create File
       </button>
@@ -88,15 +88,16 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
             <h2 className="text-xl font-semibold mb-4">Upload PDF File</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-                  Pdf Name:
+                <label htmlFor="fileName" className="block text-sm font-medium text-gray-700">
+                  PDF Name:
                 </label>
                 <input
                   type="text"
-                  id="name"
+                  id="fileName"
+                  value={fileName}
                   onChange={handleFileNameChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md px-2 border-black border-2 shadow-sm focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 />
               </div>
               <div className="mb-4">
@@ -109,22 +110,23 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
                   accept=".pdf"
                   onChange={handleFileChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 hover:cursor-pointer"
+                  className="mt-1 block w-full rounded-md px-2 border-black border-2 shadow-sm focus:ring focus:ring-blue-500 focus:ring-opacity-50 hover:cursor-pointer"
                 />
               </div>
               <button 
                 type="submit" 
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                className="bg-zinc-600 dark:bg-zinc-700 dark:hover:bg-secondary text-white py-2 px-4 rounded"
               >
                 Upload File
               </button>
-              {message && <p className="text-red-500">{message}</p>}
+              {message && <p className="text-red-500 mt-2">{message}</p>}
             </form>
           </div>
         </div>
       )}
     </div>
   );
+
 };
 
 export default CreateFile;

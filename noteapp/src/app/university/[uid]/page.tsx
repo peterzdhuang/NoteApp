@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 import CreateCourse from '@/components/createCourse';
+import LoadingScreen from '@/components/Loading';
 
 interface Course {
   rowKey: string;
@@ -53,7 +54,7 @@ const CoursePage: React.FC = () => {
   const placeholderDepartment = 'Select a Department';
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingScreen/>;
   }
 
   const filteredClasses = classes.filter((course) =>
@@ -88,16 +89,6 @@ const CoursePage: React.FC = () => {
               <option value="Spring">Spring</option>
               <option value="Summer">Summer</option>
             </select>
-            <select 
-              value={selectedDepartment} 
-              onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="p-2 border-1 border-black shadow-lg ml-4 focus:outline-double dark:text-black"
-            >
-              <option value="">{placeholderDepartment}</option>
-              <option value="CMPT">Computer Science</option>
-              <option value="MATH">Mathematics</option>
-              <option value="PHYS">Physics</option>
-            </select>
           </div>
         </div>
 
@@ -116,6 +107,17 @@ const CoursePage: React.FC = () => {
         </div>
         <CreateCourse uid={uid} />
       </div>
+      <footer className="bg-secondary text-black py-6 dark:text-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p>&copy; 2024 NoteHub. All rights reserved.</p>
+            <div className="space-x-4">
+              <a href="/privacy-policy" className="hover:underline">Privacy Policy</a>
+              <a href="/terms-of-service" className="hover:underline">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };

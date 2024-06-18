@@ -31,7 +31,7 @@ export default function LandingPage() {
         <FeatureSection/>
 
         {/* Recent Notes Section */}
-        <RecentSection/>
+        {/* <RecentSection/> */}
         
         {/* About Section */}
         <div className="my-10">

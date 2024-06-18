@@ -103,8 +103,8 @@ const SearchBar = () => {
 
       {notFound && (
         <div className="mt-2 text-primary-500">
+          University Not Found
           <CreateUniversity />
-          <span>Add your university</span>
         </div>
       )}
     </div>

@@ -126,7 +126,7 @@ export default function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex">
-        <Card className="w-[300px] h-auto flex flex-col shadow-lg">
+        {/* <Card className="w-[300px] h-auto flex flex-col shadow-lg">
           <CardHeader>
             <CardTitle>Similar Content</CardTitle>
             <CardDescription>showing notes with similar Keywords</CardDescription>
@@ -142,7 +142,7 @@ export default function Home() {
           <CardFooter className="flex justify-center">
             <Button variant="outline" className="text-base md:text-lg lg:text-xl">View More</Button>
           </CardFooter>
-        </Card>
+        </Card> */}
 
         {file.length > 0 && (
           <div className="ml-20 w-3/4 h-[800px] shadow-lg overflow-auto">
@@ -150,6 +150,17 @@ export default function Home() {
           </div>
         )}
       </div>
+      <footer className="bg-secondary text-black py-6 dark:text-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p>&copy; 2024 NoteHub. All rights reserved.</p>
+            <div className="space-x-4">
+              <a href="/privacy-policy" className="hover:underline">Privacy Policy</a>
+              <a href="/terms-of-service" className="hover:underline">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

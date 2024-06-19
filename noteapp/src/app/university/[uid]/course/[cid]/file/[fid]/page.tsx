@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 
 interface FileData {
   fileName: string;
-  // Add other properties if needed
 }
 
 const PlaceholderCard = () => (
@@ -115,7 +114,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 ">
             <Button variant="outline" className="ml-4"><FlagIcon/></Button>
             <Button variant="default" className="flex items-center px-4 py-2 hover:bg-primary/80">
               <HeartIcon className="mr-2" />

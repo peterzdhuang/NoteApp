@@ -36,10 +36,15 @@ const CreateFile: React.FC<CreateFileProps> = ({ cid, uid }) => {
         return;
       }
 
+      let finalFileName = fileName;
+      if (!finalFileName.endsWith('.pdf')) {
+        finalFileName += '.pdf';
+      }
+
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(fileName)}`, {
+      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/UploadPDF?code=dXAZBrP7X2vMdEFx6H26y7ZwleM3M4QpmiXTu81_TPKUAzFu-owBeg%3D%3D&cid=${encodeURIComponent(cid)}&fileName=${encodeURIComponent(finalFileName)}`, {
         method: 'POST',
         body: formData
       });

@@ -4,6 +4,8 @@
 
 **NoteHub** is a scalable note-sharing web application designed to enable university students to find classes and securely share notes. The application uses a robust technology stack to ensure performance, security, and a seamless user experience.
 
+<img src="notehub.png" alt="Notehub" width="500">
+
 ### Key Features
 
 - **Scalable Architecture**: Built with TypeScript and React for the frontend, and Node.js with Azure Functions and Tables for the backend.

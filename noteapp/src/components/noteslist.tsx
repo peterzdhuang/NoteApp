@@ -54,7 +54,7 @@ const NotesList = () => {
             <h3 className="text-xl text-center font-semibold">{note.title}</h3>
             <p className="text-gray-600 text-center mt-2">{note.description}</p>
             <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-sm hover:bg-blue-600 mx-auto block">
-              View Details
+              View More
             </button>
           </div>
         </motion.div>

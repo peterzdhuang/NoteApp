@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { Button } from './ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faSearchPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // Import necessary styles for annotations
 
 // Ensure the workerSrc is correctly set for pdfjs
@@ -49,10 +50,10 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl }) => {
         {/* Zoom buttons */}
         <div className="flex items-center space-x-2">
           <Button onClick={handleZoomIn} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
-            <FontAwesomeIcon icon={faSearchPlus} />
+            <FontAwesomeIcon icon={faSearchPlus as IconProp} />
           </Button>
           <Button onClick={handleZoomOut} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
-            <FontAwesomeIcon icon={faSearchMinus} />
+            <FontAwesomeIcon icon={faSearchMinus  as IconProp} />
           </Button>
         </div>
         {/* Page input */}
@@ -69,10 +70,10 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl }) => {
         {/* Prev and Next buttons */}
         <div className="flex items-center space-x-2">
           <Button onClick={handlePrevPage} disabled={pageNumber <= 1} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
-            <FontAwesomeIcon icon={faArrowLeft} />
+            <FontAwesomeIcon icon={faArrowLeft  as IconProp} />
           </Button>
           <Button onClick={handleNextPage} disabled={pageNumber >= numPages!} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded">
-            <FontAwesomeIcon icon={faArrowRight} />
+            <FontAwesomeIcon icon={faArrowRight  as IconProp} />
           </Button>
         </div>
       </div>

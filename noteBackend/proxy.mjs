@@ -1,27 +1,42 @@
-import express from 'express';
-import fetch from 'node-fetch';
-import cors from 'cors';
+import express from "express";
+import fetch from "node-fetch";
 
 const app = express();
+const port = 3001;
 
-// Enable CORS for all routes
-app.use(cors());
+// CORS middleware to allow requests from your React frontend
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");  // Allow all origins (you can restrict this to http://localhost:3000 if you prefer)
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-app.get('/pdf/:name', async (req, res) => {
-    try {
-        const name = req.params.name
-        console.log(name)
-        const response = await fetch(`https://dricandpeter.blob.core.windows.net/pdfblob/${encodeURIComponent(name)}`);
-        const pdfBuffer = await response.buffer();
-        res.set('Content-Type', 'application/pdf');
-        res.send(pdfBuffer);
-    } catch (error) {
-        console.error('Error fetching PDF:', error);
-        res.status(500).send('Error fetching PDF');
-    }
+  // Handle preflight request (OPTIONS)
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Proxy server running on port ${PORT}`);
+app.get("/proxy", async (req, res) => {
+  const sanityUrl = "https://qejur137.api.sanity.io/v2023-01-01/data/query/production";  // Updated project ID and dataset
+  const query = req.query.query; // Forward query parameter
+
+  try {
+    const response = await fetch(`${sanityUrl}?query=${encodeURIComponent(query)}`);
+    const data = await response.json();
+
+    // Log the Sanity API response
+    console.log("Sanity API Response:", response);
+    console.log("Parsed Data:", data);
+
+    // Send the data with CORS headers
+    res.json(data);
+  } catch (err) {
+    console.error("Error fetching data from Sanity:", err);
+    res.status(500).json({ error: "Failed to fetch data from Sanity API" });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Proxy server running at http://localhost:${port}`);
 });

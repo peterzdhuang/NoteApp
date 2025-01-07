@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createClient } from "@sanity/client";
+import  createClient from "@sanity/client";
 import PDFThumbnail from "./thumbnail";
 
 const client = createClient({

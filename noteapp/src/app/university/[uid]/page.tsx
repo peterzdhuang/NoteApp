@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import Nav from '@/components/nav';
 import CreateCourse from '@/components/createCourse';
-import FooterSection from '@/components/footer_section';
 import FeatureSection from '@/components/landing_featured';
 import LoadingScreen from '@/components/Loading';
 
@@ -113,8 +112,7 @@ const CoursePage: React.FC = () => {
 
 
       </div>
-      {/* Footer Section */}
-      <FooterSection/>
+
     </>
   );
 };

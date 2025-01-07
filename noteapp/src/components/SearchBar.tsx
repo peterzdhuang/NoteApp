@@ -13,7 +13,7 @@ const SearchBar = () => {
   const [universities, setUniversities] = useState<Record<number, string>>({});
 
   useEffect(() => {
-    fetch('https://pdfstoragefunctionapp.azurewebsites.net/api/ListOfUniversities?code=NL2Au6N8mDdUBjxuLE4481ab1Knx51QMsTG63kGD75F0AzFuqwUhpw%3D%3D')
+    fetch('')
       .then(response => response.json())
       .then(data => {
         const universities: Record<number, string> = {};
@@ -50,7 +50,7 @@ const SearchBar = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getUniversityByName?code=4d1tlY6Rp9n6Nq7D2o4Cks0qPOqJU_AZwIPLj9gWnWEtAzFuT3Pnwg%3D%3D&universityName=${encodeURIComponent(query)}`, {
+      const response = await fetch(``, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -79,18 +79,18 @@ const SearchBar = () => {
           value={query}
           onChange={handleChange}
           placeholder="Find your university"
-          className="px-4 py-2 border-2 border-primary text-xl h-15 flex-grow shadow-lg focus:outline-none focus:ring-0"
+          className="px-4 py-2 border-2 text-xl h-15 flex-grow shadow-lg"
           aria-label="University Search"
         />
         <Button type="submit" className="mx-4 w-20 flex shadow-lg" variant="default">Search</Button>
       </form>
 
       {suggestions.length > 0 && (
-        <ul className="relative z-10 w-full mt-1 bg-white dark:bg-secondary dark:text-white dark:border-transparent border border-gray-300 rounded-lg shadow-lg">
+        <ul className="relative z-10 w-full mt-1 border">
           {suggestions.map((suggestion) => (
             <li
               key={suggestion}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600"
+              className="px-4 py-2 cursor-pointe"
               onClick={() => handleSuggestionClick(suggestion)}
               role="option"
               aria-selected={query === suggestion}

@@ -6,6 +6,7 @@ import Nav from '@/components/nav';
 import CreateCourse from '@/components/createCourse';
 import FooterSection from '@/components/footer_section';
 import FeatureSection from '@/components/landing_featured';
+import LoadingScreen from '@/components/Loading';
 
 interface Course {
   rowKey: string;
@@ -31,7 +32,8 @@ const CoursePage: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`https://pdfstoragefunctionapp.azurewebsites.net/api/getClassesByUid?code=E9eyEuZNzKgqPruXoIuWOeUg7p9B4YyrAF2XNExxPGOxAzFujBjnPQ%3D%3D&uid=${encodeURIComponent(uid)}`);
+        const res = await fetch(``);
+
         const data = await res.json();
         setClasses(data);
         setLoading(false);

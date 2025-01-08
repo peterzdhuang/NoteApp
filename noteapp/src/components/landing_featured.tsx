@@ -1,41 +1,69 @@
+import React, { useEffect, useState } from "react";
+import  createClient from "@sanity/client";
 import PDFThumbnail from "./thumbnail";
 
-const FeatureSection: React.FC = () => {
-    return (
-        <section
-            className="featured-notes py-10 my-10 rounded-xl shadow-lg"
-            style={{
-                backgroundImage: "url('/featured_bg.svg')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'bottom',
-            }}
-        >
-            <div className="feature max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 drop-shadow-xl text-center">
-                <h2 className="text-3xl font-bold mb-6 shadow-xl">Featured Notes</h2>
+const client = createClient({
+  projectId: "qejur137", // Replace with your Sanity project ID
+  dataset: "production", // Replace with your dataset
+  apiVersion: "2023-01-01", // Use the latest API version
+  useCdn: true,
+});
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/seed-mixes.pdf"}></PDFThumbnail>
-                        <h3 className="text-xl font-bold">Note 1</h3>
-                        <p className="mt-2">Summary of Note 1...</p>
-                    </div>
+const proxyUrl = "http://localhost:3001/proxy"; // URL to your proxy server
 
-                    <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/123123123123.pdf"}></PDFThumbnail>
-                        <h3 className="text-xl font-bold">Note 2</h3>
-                        <p className="mt-2">Summary of Note 2...</p>
-                    </div>
-
-                    <div className="note-card p-4 bg-white shadow rounded-md dark:bg-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <PDFThumbnail pdfUrl={"https://dricandpeter.blob.core.windows.net/pdfblob/PeterHuangResumeV1.docx (1).pdf"}></PDFThumbnail>
-                        <h3 className="text-xl font-bold">Note 3</h3>
-                        <p className="mt-2">Summary of Note 3...</p>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-    );
+interface PDFDocument {
+  title: string;
+  summary: string;
+  pdfUrl: string;
+  thumbnailUrl: string;
 }
+
+const FeatureSection: React.FC = () => {
+  const [pdfs, setPdfs] = useState<PDFDocument[]>([]);
+
+  useEffect(() => {
+    const fetchPDFs = async () => {
+      const query = `*[_type == "pdfDocument"] {
+        title,
+        summary,
+        "pdfUrl": pdfFile.asset->url,
+        "thumbnailUrl": thumbnail.asset->url
+      }`;
+
+      try {
+        const response = await fetch(`${proxyUrl}?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        setPdfs(data.result || []);
+      } catch (error) {
+        console.error("Error fetching PDFs:", error);
+      }
+    };
+
+    fetchPDFs();
+  }, []);
+
+  return (
+    <section className="py-10 my-10 bg-gradient-to-r rounded-xl shadow-xl">
+        <h2 className="text-3xl font-semibold text-black py-2 mb-6 text-center shadow-lg">Featured Notes</h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pdfs.map((pdf, index) => (
+                <div
+                key={index}
+                className="bg-black bg-opacity-80 rounded-md shadow-md hover:shadow-xl transition-shadow duration-300"
+                >
+                <PDFThumbnail pdfUrl={pdf.pdfUrl} />
+                <div className="p-4">
+                    <h3 className="text-xl font-semibold text-white text-bold">{pdf.title}</h3>
+                    <p className="mt-2 text-white">{pdf.summary}</p>
+                </div>
+                </div>
+            ))}
+            </div>
+        </div>
+    </section>
+
+  );
+};
 
 export default FeatureSection;
